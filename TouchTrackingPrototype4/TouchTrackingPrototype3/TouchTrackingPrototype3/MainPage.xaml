@@ -13,7 +13,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Label Text="MainPage: Click button to start tracking..." FontSize="Title" TextColor="White" Padding="30,10,30,10" Grid.Row="0"/>
+            <Label Text="MainPage: Click button to track..." FontSize="Title" TextColor="White" Padding="30,10,30,10" Grid.Row="0"/>
 
             <Button Text="Click to track..." Clicked="TrackButton_Clicked" Grid.Row="1"/>
         </Grid>
