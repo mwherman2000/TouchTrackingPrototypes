@@ -1,7 +1,7 @@
 # TouchTrackingPrototypes
 Xamarin.Forms Touch Tracking Prototypes using PlatformEffect
 
-## version 0: TouchTrackingPrototype0
+## Version 0: TouchTrackingPrototype0
 
 - Uses the `Blank` Xamarin Forms template in Visual Studio 2022 (third option) to create a simple single page XAML app.
 - The content of the `MainPage.xaml` was updated to render a simple `Grid` element inside a colored `Frame` element.
@@ -23,8 +23,8 @@ Xamarin.Forms Touch Tracking Prototypes using PlatformEffect
 
 ## Version 1: TouchTrackingPrototype1
 
-- Extends `TouchTrackingPrototype0` to include a `PlatformEffect` class (element `pe:TouchTrackingEffect`) that does nothing more than activate and deactive.
-- `MainPage.xaml` changes: added namespace `pe` and added `pe:TouchTrackingEffect` element to the page markup
+- Extends `TouchTrackingPrototype0` to include a `PlatformEffect` class (element `pe:TouchTrackingEffect`) that does nothing more than activate and deactivate (attach and detach).
+- `MainPage.xaml` changes: added namespace `pe`; then `pe:TouchTrackingEffect` element to the page markup
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -45,7 +45,7 @@ Xamarin.Forms Touch Tracking Prototypes using PlatformEffect
 </ContentPage>
 ```
 
-- Added `TouchTrackingEffect.cs` to the device-independent (top-most) project. This class implements the _code-behind_ the `pe:TouchTrackingEffect` element. Through magic, the `TouchTrackingEffect()` method binds to either the Android or iOS platform-specific implementations of this class. This class derives from `RoutingEffect`.
+- Added `TouchTrackingEffect.cs` to the device-independent (top-most) project of the solution. This class implements the _code-behind_ the `pe:TouchTrackingEffect` element. Through magic, the `TouchTrackingEffect()` method binds to either the Android or iOS platform-specific implementations of this class. This class derives from `RoutingEffect`.
 
 ```csharp
 using Xamarin.Forms;
@@ -63,7 +63,7 @@ namespace TouchTrackingPlatformEffects
 
 ```
 
-- Added `TouchTrackingEffectDroid.cs` to the Android (second) project in the solution. This class is where the Android specific _platform-specific effect (or platform-specific behaviour)_ is implemented.
+- Added `TouchTrackingEffectDroid.cs` to the Android (second) project in the solution. This class is where the Android specific _platform-specific effect_ (or _platform-specific behavior_) is implemented.
 - When a XAML page is _pushed_ on the app stack to become the currently displayed page, the `OnAttached()` method is called to perform any device-specific (Android) initialization; for example, configure an event handler or dynamically change the color or style of a control.
 - When the XAML page is _popped_ off the stack (and the previous page is displayed), the `OnDetached()` method is called to undo any initializations performed in `OnAttached()` (e.g. remove an event handler).
 - These 2 methods don't do anything in this version. The goal of this version is simply to connect up all the basic plumbing and to test that it works.
@@ -102,15 +102,15 @@ namespace TouchTrackingPlatformEffects.Droid
 
 ## Version 2: TouchTrackingPrototype2
 
-- This version can be skipped. 
+- This version can be skipped. See the NOTE: below.
 - This version only adds a `Button` (and event handler) to `MainPage.xaml` to push to a `DonePage.xaml`. It illustrates how _pushing_ activates the `OnAttached()` handler but the page push to `DonePage.xaml` doesn't activate the `OnDetached()` handler. Checkout Version 3.
-- NOTE: There is one important change in Version 2 needed to get _Navigation_ to work: In the `App()` constructor. `MainPage = new MainPage();` needed to be changed to `MainPage = new NavigationPage(new MainPage());`
+- NOTE: There is one important change in Version 2 needed to get _Navigation_ to work: In the `App()` constructor, the statement `MainPage = new MainPage();` needs to be changed to `MainPage = new NavigationPage(new MainPage());`
 
 ## Version 3: TouchTrackingPrototype3
 
-- Extends `TouchTrackingPrototype2` to demonstate both of `OnAttached()` and `OnDetached()` being executed. The previous versions were only able to cause `OnAttached()` to be executed. It took some additional research (actually trial-and-error) to figure out that a page needed to be _popped_ to trigger `OnDetached()`. Here's what needed to be changed...
+- Extends `TouchTrackingPrototype2` to demonstate both `OnAttached()` and `OnDetached()` being executed. The previous versions were only able to cause `OnAttached()` to be executed. It took some additional research (trial-and-error) to figure out that a page needed to be _popped_ to trigger `OnDetached()`. Here's what needed to be changed...
 - Removed `DonePage.xaml`
-- Added `TouchTrackerPage.xaml`. All of the touch tracking was moved from `MainPage.xaml` to `TouchTrackerPage.xaml`. `TouchTrackerPage.xaml` is the page that is pushed from `MainPage.xaml` (and later popped via an event handler attached to a `Button`). This combination results in `OnAttached()` to be executed when `TouchTrackerPage.xaml` is pushed from `MainPage.xaml` and, for the first time, `OnDetached()` to be executed (when `TouchTrackerPage.xaml`) is popped.
+- Added `TouchTrackerPage.xaml`. All of the touch tracking was moved from `MainPage.xaml` to `TouchTrackerPage.xaml`. `TouchTrackerPage.xaml` is the page that is pushed from `MainPage.xaml` (and later popped via an event handler attached to a `Button`). This combination results in `OnAttached()` to be executed when `TouchTrackerPage.xaml` is pushed from `MainPage.xaml` and, for the first time, `OnDetached()` to be executed (when `TouchTrackerPage.xaml` is popped).
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
