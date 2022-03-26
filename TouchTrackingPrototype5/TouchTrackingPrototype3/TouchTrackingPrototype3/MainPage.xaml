@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pe="clr-namespace:TouchTrackingPlatformEffects"
              xmlns:pages="clr-namespace:TouchTrackingPrototype3"
-             x:Class="TouchTrackingPrototype3.TouchTrackerPage">
+             x:Class="TouchTrackingPrototype3.MainPage">
 
     <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
         <Grid>
@@ -13,13 +13,9 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Label Text="TouchTrackerPage: Click button when done..." FontSize="Title" TextColor="White" Padding="30,10,30,10" Grid.Row="0"/>
+            <Label Text="MainPage: Click button to track..." FontSize="Title" TextColor="White" Padding="30,10,30,10" Grid.Row="0"/>
 
-            <Button Text="Click when done..." Clicked="DoneButton_Clicked" Grid.Row="1"/>
-
-            <Grid.Effects>
-                <pe:TouchTrackingEffect />
-            </Grid.Effects>
+            <Button Text="Click to track..." Clicked="TrackButton_Clicked" Grid.Row="1"/>
         </Grid>
     </Frame>
 </ContentPage>

@@ -248,3 +248,13 @@ namespace TouchTrackingPlatformEffects.Droid
 ## Version 4: TouchTrackingPrototype4
 
 - Exact copy of `TouchTrackingPrototype3` with some added event-level debug tracing
+
+## Version 5: TouchTrackingPrototype5
+
+- Exact copy of `TouchTrackingPrototype4` with the addition of the NFE envelope and proof JSON templates as _raw_ Resources in the Xamarin Android project. This includes changes in the platform-independent project to save a handle to the `MainActivity` for use in the Adroid platform specific project as well as code on the `OnAttached` handler. Then, of course, there is the addition of the `raw` folder in the Android project as welll as the 2 JSON template files.
+- Changes
+    1.
+    2.
+    3.
+    4.
+    5.

@@ -13,7 +13,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Label Text="TouchTrackerPage: Click button when done..." FontSize="Title" TextColor="White" Padding="30,10,30,10" Grid.Row="0"/>
+            <Label Text="TouchTrackerPage: Click button when done tracking..." FontSize="Title" TextColor="White" Padding="30,10,30,10" Grid.Row="0"/>
 
             <Button Text="Click when done..." Clicked="DoneButton_Clicked" Grid.Row="1"/>
 
