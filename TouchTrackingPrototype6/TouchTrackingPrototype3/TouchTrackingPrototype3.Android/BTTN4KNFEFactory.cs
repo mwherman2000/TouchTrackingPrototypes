@@ -7,23 +7,23 @@ using System.Text;
 namespace BTTN4KNFE
 {
 	public class BTTN4KNFEValues
-    {
+	{
 		public const int MAXSAMPLES = 150;
 		public const int MILLI = 1000;
 
 		public string udid;
 		public string hashedThumbprint64;
 
-		public float kissCompass;	// degrees - 0 degrees = UP
-		public string purpose;		// "romantic"
+		public float kissCompass;   // degrees - 0 degrees = UP
+		public string purpose;      // "romantic"
 		public string kissType;
-		public string mood;			// "Savium"
-		public bool tongue;			// false
+		public string mood;         // "Savium"
+		public bool tongue;         // false
 
 		public string targetbodypart;
 		public string actualbodypart;
 
-		public string timezoneid;	// "UTC"
+		public string timezoneid;   // "UTC"
 		public DateTime tod0approach;
 		public DateTime tod1press;
 		public DateTime tod2sustain;
@@ -31,7 +31,7 @@ namespace BTTN4KNFE
 		public DateTime tod4recovery;
 		public DateTime tod5finish;
 
-		public int t0ms;			// = 0
+		public int t0ms;            // = 0
 		public int t1ms;
 		public int t2ms;
 		public int t3ms;
@@ -50,7 +50,7 @@ namespace BTTN4KNFE
 		public int d4s;
 		public int d5s;
 
-		public int t0s;				// = 0
+		public int t0s;             // = 0
 		public int t1s;
 		public int t2s;
 		public int t3s;
@@ -85,9 +85,9 @@ namespace BTTN4KNFE
 		//public string d3sustainpng64;
 		//public string d4releasepng64;
 		//public string d5recoverypng64;
-		
+
 		public BTTN4KNFEValues()
-        {
+		{
 			udid = Guid.NewGuid().ToString();
 
 			kissCompass = 0;
@@ -95,6 +95,16 @@ namespace BTTN4KNFE
 			mood = "Savium";
 			tongue = false;
 			timezoneid = "UTC";
+			kissType = "Press";
+			targetbodypart = "Lips";
+			actualbodypart = "Lips";
+
+			tod0approach = DateTime.MinValue;
+			tod1press = DateTime.MinValue;
+			tod2sustain = DateTime.MinValue;
+			tod3release = DateTime.MinValue;
+			tod4recovery = DateTime.MinValue;
+			tod5finish = DateTime.MinValue;
 
 			n1samples = 1;
 			n2samples = 1;
@@ -105,7 +115,7 @@ namespace BTTN4KNFE
 			d1approachcurve = new float[MAXSAMPLES];
 			d1approachtime = new float[MAXSAMPLES];
 			d2presscurve = new float[MAXSAMPLES];
-			d2presstime = new float[MAXSAMPLES];	
+			d2presstime = new float[MAXSAMPLES];
 			d3sustaincurve = new float[MAXSAMPLES];
 			d3sustaintime = new float[MAXSAMPLES];
 			d4releasecurve = new float[MAXSAMPLES];
@@ -115,16 +125,16 @@ namespace BTTN4KNFE
 		}
 
 		public static string ConvertFloatArrayToString(float[] array)
-        {
+		{
 			string values = "";
 			int len = array.Length;
 			for (int i = 0; i < len; i++) values += array[i].ToString() + ", ";
 			values = values.Substring(0, values.Length - 2);
 			return values;
-        }
+		}
 
 		public static void ComputeDurations(BTTN4KNFEValues nfeValues)
-        {
+		{
 			nfeValues.t0ms = (int)Math.Round(nfeValues.tod0approach.Subtract(nfeValues.tod0approach).TotalMilliseconds); // zero
 			nfeValues.t1ms = (int)Math.Round(nfeValues.tod1press.Subtract(nfeValues.tod0approach).TotalMilliseconds);
 			nfeValues.t2ms = (int)Math.Round(nfeValues.tod2sustain.Subtract(nfeValues.tod0approach).TotalMilliseconds);
@@ -182,13 +192,13 @@ namespace BTTN4KNFE
 		}
 
 		public static float ComputePeak(BTTN4KNFEValues nfeValues)
-        {
+		{
 			float peak = 0;
 
 			peak = FloatArrayPeak(nfeValues.n3samples, nfeValues.d3sustaincurve);
 
 			return peak;
-        }
+		}
 
 		public static float ComputeCoverage(BTTN4KNFEValues nfeValues)
 		{
@@ -203,12 +213,13 @@ namespace BTTN4KNFE
 	}
 
 	public class BTTN4KNFEFactory
-    {
+	{
 		static string nfeJsonEnvelopeTemplate = null;
 		static string nfeJsonProofTemplate = null;
+		public static string nfePath;
 
 		public static string FillTemplate(TouchTrackingPrototype3.Droid.MainActivity activity, BTTN4KNFEValues nfeValues)
-        {
+		{
 			string nfeJson = "";
 
 #if false // Windows
@@ -233,74 +244,74 @@ namespace BTTN4KNFE
 			}
 #endif
 
-			//BTTN4KNFEValues.ComputeDurations(nfeValues);
+			BTTN4KNFEValues.ComputeDurations(nfeValues);
 
 			string nfeJsonEnvelope = nfeJsonEnvelopeTemplate;
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%udid%", nfeValues.udid);
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%kissCompass%", nfeValues.kissCompass.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%purpose%", nfeValues.purpose.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%mood%", nfeValues.mood.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%tongue%", nfeValues.tongue.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%timezoneid%", nfeValues.timezoneid.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%udid%", nfeValues.udid);
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%kissCompass%", nfeValues.kissCompass.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%purpose%", nfeValues.purpose.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%mood%", nfeValues.mood.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%tongue%", nfeValues.tongue.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%timezoneid%", nfeValues.timezoneid.ToString());
 
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%kissType%", nfeValues.kissType.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%targetbodypart%", nfeValues.targetbodypart.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%actualbodypart%", nfeValues.actualbodypart.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%kissType%", nfeValues.kissType.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%targetbodypart%", nfeValues.targetbodypart.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%actualbodypart%", nfeValues.actualbodypart.ToString());
 
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%tod0approach%", nfeValues.tod0approach.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%tod1press%", nfeValues.tod1press.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%tod2sustain%", nfeValues.tod2sustain.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%tod3release%", nfeValues.tod3release.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%tod4recovery%", nfeValues.tod4recovery.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%tod5finish%", nfeValues.tod5finish.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%tod0approach%", nfeValues.tod0approach.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%tod1press%", nfeValues.tod1press.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%tod2sustain%", nfeValues.tod2sustain.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%tod3release%", nfeValues.tod3release.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%tod4recovery%", nfeValues.tod4recovery.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%tod5finish%", nfeValues.tod5finish.ToString());
 
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t0ms%", nfeValues.t0ms.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t1ms%", nfeValues.t1ms.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t2ms%", nfeValues.t2ms.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t3ms%", nfeValues.t3ms.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t4ms%", nfeValues.t4ms.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t5ms%", nfeValues.t5ms.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t0ms%", nfeValues.t0ms.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t1ms%", nfeValues.t1ms.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t2ms%", nfeValues.t2ms.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t3ms%", nfeValues.t3ms.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t4ms%", nfeValues.t4ms.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t5ms%", nfeValues.t5ms.ToString());
 
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%d1ms%", nfeValues.d1ms.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%d2ms%", nfeValues.d2ms.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%d3ms%", nfeValues.d3ms.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%d4ms%", nfeValues.d4ms.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%d5ms%", nfeValues.d5ms.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%d1ms%", nfeValues.d1ms.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%d2ms%", nfeValues.d2ms.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%d3ms%", nfeValues.d3ms.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%d4ms%", nfeValues.d4ms.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%d5ms%", nfeValues.d5ms.ToString());
 
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%d1s%", nfeValues.d1s.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%d2s%", nfeValues.d2s.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%d3s%", nfeValues.d3s.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%d4s%", nfeValues.d4s.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%d5s%", nfeValues.d5s.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%d1s%", nfeValues.d1s.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%d2s%", nfeValues.d2s.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%d3s%", nfeValues.d3s.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%d4s%", nfeValues.d4s.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%d5s%", nfeValues.d5s.ToString());
 
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t0s%", nfeValues.t0s.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t1s%", nfeValues.t1s.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t2s%", nfeValues.t2s.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t3s%", nfeValues.t3s.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t4s%", nfeValues.t4s.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t5s%", nfeValues.t5s.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t0s%", nfeValues.t0s.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t1s%", nfeValues.t1s.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t2s%", nfeValues.t2s.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t3s%", nfeValues.t3s.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t4s%", nfeValues.t4s.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%t5s%", nfeValues.t5s.ToString());
 
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%peak%", nfeValues.peak.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%medianms%", nfeValues.medianms.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%medians%", nfeValues.medians.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%coverage%", nfeValues.coverage.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%peak%", nfeValues.peak.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%medianms%", nfeValues.medianms.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%medians%", nfeValues.medians.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%coverage%", nfeValues.coverage.ToString());
 
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%n1samples%", nfeValues.n1samples.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%n2samples%", nfeValues.n2samples.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%n3samples%", nfeValues.n3samples.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%n4samples%", nfeValues.n4samples.ToString());
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("%n5samples%", nfeValues.n5samples.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%n1samples%", nfeValues.n1samples.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%n2samples%", nfeValues.n2samples.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%n3samples%", nfeValues.n3samples.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%n4samples%", nfeValues.n4samples.ToString());
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%n5samples%", nfeValues.n5samples.ToString());
 
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d1approachcurve%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d1approachcurve));
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d1approachtime%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d1approachtime));
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d2presscurve%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d2presscurve));
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d2presstime%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d2presstime));
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d3sustaincurve%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d3sustaincurve));
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d3sustaintime%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d3sustaintime));
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d4releasecurve%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d4releasecurve));
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d4releasetime%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d4releasetime));
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d5recoverycurve%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d5recoverycurve));
-			//nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d5recoverytime%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d5recoverytime));
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d1approachcurve%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d1approachcurve));
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d1approachtime%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d1approachtime));
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d2presscurve%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d2presscurve));
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d2presstime%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d2presstime));
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d3sustaincurve%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d3sustaincurve));
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d3sustaintime%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d3sustaintime));
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d4releasecurve%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d4releasecurve));
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d4releasetime%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d4releasetime));
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d5recoverycurve%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d5recoverycurve));
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d5recoverytime%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d5recoverytime));
 
 			nfeValues.hashedThumbprint64 = BTTN4KNFEFactoryHelpers.ComputeHash64(nfeJsonEnvelope);
 			dynamic nfeJsonCanconical = JsonConvert.DeserializeObject(nfeJsonEnvelope);
@@ -316,17 +327,24 @@ namespace BTTN4KNFE
 			return nfeJson;
 		}
 
-		public async static void SaveNfe(string filename, string nfeJson)
+		public static async void CheckPermissions()
         {
+			// TODO - do a check before the request
 			var statusw = await Xamarin.Essentials.Permissions.RequestAsync<Xamarin.Essentials.Permissions.StorageWrite>();
 			var statusr = await Xamarin.Essentials.Permissions.RequestAsync<Xamarin.Essentials.Permissions.StorageRead>();
+		}
+
+		public static void SaveNfe(string filename, string nfeJson)
+		{
+			CheckPermissions();
 
 			System.Diagnostics.Debug.WriteLine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath);
 			System.Diagnostics.Debug.WriteLine(Android.OS.Environment.DirectoryDownloads);
 			string localFolder = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, Android.OS.Environment.DirectoryDownloads);
-			string localPath = Path.Combine(localFolder, filename);
-			System.Diagnostics.Debug.WriteLine(localPath);
-			File.WriteAllText(localPath, nfeJson);
+			nfePath = Path.Combine(localFolder, filename);
+			System.Diagnostics.Debug.WriteLine(nfePath);
+
+			File.WriteAllText(nfePath, nfeJson);
 		}
-    }
+	}
 }
