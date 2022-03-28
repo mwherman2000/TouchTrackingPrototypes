@@ -260,3 +260,8 @@ namespace TouchTrackingPlatformEffects.Droid
     5. https://github.com/mwherman2000/TouchTrackingPrototypes/tree/main/TouchTrackingPrototype5/TouchTrackingPrototype3/TouchTrackingPrototype3.Android/Resources/raw - 2 files.  In the Properties, these 2 JSON template files need to be tagged as `AndroidResources`.
 
 - Be sure to compleletly rebuild the solution.
+- Late Addition: Added the (mostly commented out) `FillTemplate()` and `SaveNfe()` methods to Prototype5.  `SaveNfe()` works and saves a copy of the (currently unfilled) JSON template to a file called `kissnfe.json` in your Android `Downloads` folder. This should have been in a new version (separate from Prototype5 but it wasn't).
+- Changes
+    1. 
+    2. 
+    3. 
