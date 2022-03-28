@@ -262,8 +262,8 @@ namespace TouchTrackingPlatformEffects.Droid
 - Be sure to compleletly rebuild the solution.
 - Late Addition: Added the (mostly commented out) `FillTemplate()` and `SaveNfe()` methods to Prototype5.  `SaveNfe()` works and saves a copy of the (currently unfilled) JSON template to a file called `kissnfe.json` in your Android `Downloads` folder. This should have been in a new version (separate from Prototype5 but it wasn't).
 - Changes
-    1. https://github.com/mwherman2000/TouchTrackingPrototypes/blob/main/TouchTrackingPrototype5/TouchTrackingPrototype3/TouchTrackingPrototype3.Android/BTTN4KNFEFactory.cs
-    2. https://github.com/mwherman2000/TouchTrackingPrototypes/blob/main/TouchTrackingPrototype5/TouchTrackingPrototype3/TouchTrackingPrototype3.Android/BTTN4KNFEFactoryHelpers.cs
+    1. Added https://github.com/mwherman2000/TouchTrackingPrototypes/blob/main/TouchTrackingPrototype5/TouchTrackingPrototype3/TouchTrackingPrototype3.Android/BTTN4KNFEFactory.cs
+    2. Added https://github.com/mwherman2000/TouchTrackingPrototypes/blob/main/TouchTrackingPrototype5/TouchTrackingPrototype3/TouchTrackingPrototype3.Android/BTTN4KNFEFactoryHelpers.cs
     3. `android:requestLegacyExternalStorage="true"` added to https://github.com/mwherman2000/TouchTrackingPrototypes/blob/main/TouchTrackingPrototype5/TouchTrackingPrototype3/TouchTrackingPrototype3.Android/Properties/AndroidManifest.xml to enabled `Android.OS.Environment.ExternalStorageDirectory.AbsolutePath` to be called - couldn't figure out the modern way of doing this: https://github.com/mwherman2000/TouchTrackingPrototypes/blob/main/TouchTrackingPrototype5/TouchTrackingPrototype3/TouchTrackingPrototype3.Android/BTTN4KNFEFactory.cs#L324. Some permissions were also added to this file but in the more recent versions of Android, they don't have any effect.  These permissions need to be requested programmatically: https://github.com/mwherman2000/TouchTrackingPrototypes/blob/main/TouchTrackingPrototype5/TouchTrackingPrototype3/TouchTrackingPrototype3.Android/BTTN4KNFEFactory.cs#L321
 
 ## Version 6 - TouchTrackingPrototype5
