@@ -269,8 +269,9 @@ namespace TouchTrackingPlatformEffects.Droid
 ## Version 6 - TouchTrackingPrototype6
 - `SaveNfe()` saves a copy of the template(s) filled with default values; that is, all of the %name% substitutions are uncommented in this version and the JSON file looks complete and valid ...even if it is only default values. NFE file pathname saved in a global variable.
 - Changes
-    1. 
-    2. 
+    1. https://github.com/mwherman2000/TouchTrackingPrototypes/blob/main/TouchTrackingPrototype6/TouchTrackingPrototype3/TouchTrackingPrototype3.Android/BTTN4KNFEFactory.cs#L221
+    2. https://github.com/mwherman2000/TouchTrackingPrototypes/blob/main/TouchTrackingPrototype6/TouchTrackingPrototype3/TouchTrackingPrototype3.Android/BTTN4KNFEFactory.cs#L98
+    3. https://github.com/mwherman2000/TouchTrackingPrototypes/blob/main/TouchTrackingPrototype6/TouchTrackingPrototype3/TouchTrackingPrototype3.Android/BTTN4KNFEFactory.cs#L344
 
 ## Version 7 - TouchTrackingPrototype7
 - Work-in-progress
