@@ -62,25 +62,25 @@ namespace BTTN4KNFE
 		public float medians;
 		public float coverage;
 
+		public int n0samples;
 		public int n1samples;
 		public int n2samples;
 		public int n3samples;
 		public int n4samples;
-		public int n5samples;
 
-		public float[] d1approachtime;
-		public float[] d2presstime;
-		public float[] d3sustaintime;
-		public float[] d4releasetime;
-		public float[] d5recoverytime;
+		public float[] d0approachtime;
+		public float[] d1presstime;
+		public float[] d2sustaintime;
+		public float[] d3releasetime;
+		public float[] d4recoverytime;
 
-		public float[] d1approachcurve;
-		public float[] d2presscurve;
-		public float[] d3sustaincurve;
-		public float[] d4releasecurve;
-		public float[] d5recoverycurve;
+		public float[] d0approachcurve;
+		public float[] d1presscurve;
+		public float[] d2sustaincurve;
+		public float[] d3releasecurve;
+		public float[] d4recoverycurve;
 
-		//public string d1approachpng64;
+		//public string d0approachpng64;
 		//public string d2presspng64;
 		//public string d3sustainpng64;
 		//public string d4releasepng64;
@@ -106,22 +106,22 @@ namespace BTTN4KNFE
 			tod4recovery = DateTime.MinValue;
 			tod5finish = DateTime.MinValue;
 
-			n1samples = 1;
-			n2samples = 1;
-			n3samples = 1;
-			n4samples = 1;
-			n5samples = 1;
+			n0samples = 0;
+			n1samples = 0;
+			n2samples = 0;
+			n3samples = 0;
+			n4samples = 0;
 
-			d1approachcurve = new float[MAXSAMPLES];
-			d1approachtime = new float[MAXSAMPLES];
-			d2presscurve = new float[MAXSAMPLES];
-			d2presstime = new float[MAXSAMPLES];
-			d3sustaincurve = new float[MAXSAMPLES];
-			d3sustaintime = new float[MAXSAMPLES];
-			d4releasecurve = new float[MAXSAMPLES];
-			d4releasetime = new float[MAXSAMPLES];
-			d5recoverycurve = new float[MAXSAMPLES];
-			d5recoverytime = new float[MAXSAMPLES];
+			d0approachcurve = new float[MAXSAMPLES];
+			d0approachtime = new float[MAXSAMPLES];
+			d1presscurve = new float[MAXSAMPLES];
+			d1presstime = new float[MAXSAMPLES];
+			d2sustaincurve = new float[MAXSAMPLES];
+			d2sustaintime = new float[MAXSAMPLES];
+			d3releasecurve = new float[MAXSAMPLES];
+			d3releasetime = new float[MAXSAMPLES];
+			d4recoverycurve = new float[MAXSAMPLES];
+			d4recoverytime = new float[MAXSAMPLES];
 		}
 
 		public static string ConvertFloatArrayToString(float[] array)
@@ -174,11 +174,13 @@ namespace BTTN4KNFE
 			nfeValues.coverage = ComputeCoverage(nfeValues);
 		}
 
-		public static float FloatArrayPeak(int nsamples, float[] array)
+		public static float FloatArrayPeak(int nsamples, float[] array, float oldpeak)
 		{
 			float peak = 0;
 			if (nsamples > array.Length) nsamples = array.Length;
 			for (int i = 0; i < nsamples; i++) if (array[i] > peak) peak = array[i];
+
+			if (oldpeak > peak) peak = oldpeak;
 			return peak;
 		}
 
@@ -192,21 +194,21 @@ namespace BTTN4KNFE
 		}
 
 		public static float ComputePeak(BTTN4KNFEValues nfeValues)
-		{
-			float peak = 0;
+		{ 
+			float peak1 = FloatArrayPeak(nfeValues.n2samples, nfeValues.d1presscurve, 0);
+			float peak2 = FloatArrayPeak(nfeValues.n2samples, nfeValues.d2sustaincurve, peak1);
+			float peak3 = FloatArrayPeak(nfeValues.n2samples, nfeValues.d3releasecurve, peak2);
 
-			peak = FloatArrayPeak(nfeValues.n3samples, nfeValues.d3sustaincurve);
-
-			return peak;
+			return peak3;
 		}
 
 		public static float ComputeCoverage(BTTN4KNFEValues nfeValues)
 		{
 			float coverage = 0;
 
-			coverage += FloatArrayCrossProduct(nfeValues.n2samples, nfeValues.d2presscurve, nfeValues.d2presstime);
-			coverage += FloatArrayCrossProduct(nfeValues.n3samples, nfeValues.d3sustaincurve, nfeValues.d3sustaintime);
-			coverage += FloatArrayCrossProduct(nfeValues.n4samples, nfeValues.d4releasecurve, nfeValues.d4releasetime);
+			coverage += FloatArrayCrossProduct(nfeValues.n1samples, nfeValues.d1presscurve, nfeValues.d1presstime);
+			coverage += FloatArrayCrossProduct(nfeValues.n2samples, nfeValues.d2sustaincurve, nfeValues.d2sustaintime);
+			coverage += FloatArrayCrossProduct(nfeValues.n3samples, nfeValues.d3releasecurve, nfeValues.d3releasetime);
 
 			return coverage;
 		}
@@ -296,22 +298,22 @@ namespace BTTN4KNFE
 			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%medians%", nfeValues.medians.ToString());
 			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%coverage%", nfeValues.coverage.ToString());
 
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%n0samples%", nfeValues.n0samples.ToString());
 			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%n1samples%", nfeValues.n1samples.ToString());
 			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%n2samples%", nfeValues.n2samples.ToString());
 			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%n3samples%", nfeValues.n3samples.ToString());
 			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%n4samples%", nfeValues.n4samples.ToString());
-			nfeJsonEnvelope = nfeJsonEnvelope.Replace("%n5samples%", nfeValues.n5samples.ToString());
 
-			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d1approachcurve%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d1approachcurve));
-			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d1approachtime%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d1approachtime));
-			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d2presscurve%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d2presscurve));
-			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d2presstime%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d2presstime));
-			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d3sustaincurve%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d3sustaincurve));
-			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d3sustaintime%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d3sustaintime));
-			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d4releasecurve%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d4releasecurve));
-			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d4releasetime%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d4releasetime));
-			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d5recoverycurve%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d5recoverycurve));
-			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d5recoverytime%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d5recoverytime));
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d0approachcurve%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d0approachcurve));
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d0approachtime%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d0approachtime));
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d1presscurve%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d1presscurve));
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d1presstime%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d1presstime));
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d2sustaincurve%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d2sustaincurve));
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d2sustaintime%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d2sustaintime));
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d3releasecurve%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d3releasecurve));
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d3releasetime%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d3releasetime));
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d4recoverycurve%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d4recoverycurve));
+			nfeJsonEnvelope = nfeJsonEnvelope.Replace("\"%d4recoverytime%\"", BTTN4KNFEValues.ConvertFloatArrayToString(nfeValues.d4recoverytime));
 
 			nfeValues.hashedThumbprint64 = BTTN4KNFEFactoryHelpers.ComputeHash64(nfeJsonEnvelope);
 			dynamic nfeJsonCanconical = JsonConvert.DeserializeObject(nfeJsonEnvelope);

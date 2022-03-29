@@ -274,4 +274,14 @@ namespace TouchTrackingPlatformEffects.Droid
     3. https://github.com/mwherman2000/TouchTrackingPrototypes/blob/main/TouchTrackingPrototype6/TouchTrackingPrototype3/TouchTrackingPrototype3.Android/BTTN4KNFEFactory.cs#L344
 
 ## Version 7 - TouchTrackingPrototype7
-- Work-in-progress
+- To support the actual tracking and recording of the 5 phases of a kiss, many changes to `OnAttached()`, `OnAttached()`,
+and the 2 JSON template files. A lot of renaming of the curve array variable names, etc.
+- Changes
+    1.
+    2.
+    3.
+    4.
+
+## Version 8 - TouchTrackingPrototype8 
+- Work-in-Progress
+- Introduction of an 'HTTPClient()' to post the filled JSON NFE file to a Trinity GraphEngine defined REST endpoint.
