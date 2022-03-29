@@ -274,13 +274,14 @@ namespace TouchTrackingPlatformEffects.Droid
     3. https://github.com/mwherman2000/TouchTrackingPrototypes/blob/main/TouchTrackingPrototype6/TouchTrackingPrototype3/TouchTrackingPrototype3.Android/BTTN4KNFEFactory.cs#L344
 
 ## Version 7 - TouchTrackingPrototype7
-- To support the actual tracking and recording of the 5 phases of a kiss, many changes to `OnAttached()`, `OnAttached()`,
-and the 2 JSON template files. A lot of renaming of the curve array variable names, etc.
+- To support the actual tracking and recording of the 5 phases of a kiss, many changes to 
+`OnAttached()`, `OnAttached()`,
+`OnTouchTrackingHandler()`, and the 2 JSON template files. A lot of renaming of the curve array variable names, etc.
 - Changes
-    1.
-    2.
-    3.
-    4.
+    1. https://github.com/mwherman2000/TouchTrackingPrototypes/blob/main/TouchTrackingPrototype7/TouchTrackingPrototype3/TouchTrackingPrototype3.Android/TouchTrackingEffectDroid.cs
+    2. https://github.com/mwherman2000/TouchTrackingPrototypes/blob/main/TouchTrackingPrototype7/TouchTrackingPrototype3/TouchTrackingPrototype3.Android/BTTN4KNFEFactory.cs
+    3. https://github.com/mwherman2000/TouchTrackingPrototypes/blob/main/TouchTrackingPrototype7/TouchTrackingPrototype3/TouchTrackingPrototype3.Android/Resources/raw/envelope4.json
+    4. https://github.com/mwherman2000/TouchTrackingPrototypes/blob/main/TouchTrackingPrototype7/TouchTrackingPrototype3/TouchTrackingPrototype3.Android/Resources/raw/proof4.json
 
 ## Version 8 - TouchTrackingPrototype8 
 - Work-in-Progress
