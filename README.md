@@ -289,6 +289,6 @@ namespace TouchTrackingPlatformEffects.Droid
 - Changes
     1. https://github.com/mwherman2000/TouchTrackingPrototypes/blob/main/TouchTrackingPrototype8/TouchTrackingPrototype3/TouchTrackingPrototype3.Android/TouchTrackingEffectDroid.cs#L100
     2. https://github.com/mwherman2000/TouchTrackingPrototypes/blob/main/TouchTrackingPrototype8/TouchTrackingPrototype3/TouchTrackingPrototype3.Android/BTTN4KNFEFactory.cs#L354
-- NOTE: To run Prototype8, you need to have ngrok.exe 8081 running, update the url in `OnDetached()` and run `BTTN4KNFEv2` Trinity GraphEngine project (currently there's no documentation on the latter).
+- NOTE: To run Prototype8, you need to have `ngrok.exe 8081` running, update the url in `OnDetached()` and run the `BTTN4KNFEv2` Trinity GraphEngine project (currently there's no documentation on the latter).
 
 That's all folks!
