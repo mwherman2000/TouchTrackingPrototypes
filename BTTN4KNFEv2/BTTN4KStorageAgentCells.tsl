@@ -1,0 +1,16 @@
+﻿// BlueToqueTools
+// Trusted Digial Web Project
+// Hyperonomy Digital Identity Lab
+// Parallelspace Corporation
+// (c) Copyright 2021-2022 Parallelspace Corporation. All Rights Reserved
+
+//include "BTTN4KStorageAgentProtocols.tsl";
+
+//////////////////////////////////////////////////////////////////////////////
+/// BTT N4K Storage Agent Local Structures
+
+cell struct BTTN4KNFEDirectory
+{
+	int count;
+	List<long> ids;
+}

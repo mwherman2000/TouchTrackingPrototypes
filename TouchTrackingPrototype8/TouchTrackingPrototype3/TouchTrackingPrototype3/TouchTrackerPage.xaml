@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pe="clr-namespace:TouchTrackingPlatformEffects"
+             xmlns:pages="clr-namespace:TouchTrackingPrototype3"
+             x:Class="TouchTrackingPrototype3.TouchTrackerPage">
+
+    <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Label Text="TouchTrackerPage: Click button when done tracking..." FontSize="Title" TextColor="White" Padding="30,10,30,10" Grid.Row="0"/>
+
+            <Button Text="Click when done..." Clicked="DoneButton_Clicked" Grid.Row="1"/>
+
+            <Grid.Effects>
+                <pe:TouchTrackingEffect />
+            </Grid.Effects>
+        </Grid>
+    </Frame>
+</ContentPage>
+

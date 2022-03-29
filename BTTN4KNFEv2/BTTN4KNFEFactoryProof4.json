@@ -1,0 +1,11 @@
+{
+  "sealedEnvelope": {
+    "envelope": "%envelope%",
+    "proof": {
+      "hashedThumbprint64": "%hashedThumbprint64%",
+      "comments": [
+        "SHA3-256 Hashed Thumbprint stored as Base64 string"
+      ]
+    }
+  }
+}

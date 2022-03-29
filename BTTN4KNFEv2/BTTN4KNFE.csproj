@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <TslCodegen Include="**/*.tsl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="BTTN4KNFE.sln.DotSettings" />
+    <None Remove="BTTN4KNFECredentialCells.tsl" />
+    <None Remove="BTTN4KNFEFactoryEnvelope4.json" />
+    <None Remove="BTTN4KNFEFactoryProof4.json" />
+    <None Remove="BTTN4KStorageAgentCells.tsl" />
+    <None Remove="BTTN4KStorageAgentProtocolParameters.tsl" />
+    <None Remove="BTTN4KStorageAgentProtocols.tsl" />
+    <None Remove="images\HappyFace.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="BTTN4KNFEFactoryProof4.json" />
+    <EmbeddedResource Include="BTTN4KNFEFactoryEnvelope4.json" />
+    <EmbeddedResource Include="images\HappyFace.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GraphEngine.Core" Version="2.0.11318" />
+  </ItemGroup>
+
+</Project>
+

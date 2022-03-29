@@ -284,5 +284,10 @@ namespace TouchTrackingPlatformEffects.Droid
     4. https://github.com/mwherman2000/TouchTrackingPrototypes/blob/main/TouchTrackingPrototype7/TouchTrackingPrototype3/TouchTrackingPrototype3.Android/Resources/raw/proof4.json
 
 ## Version 8 - TouchTrackingPrototype8 
-- Work-in-Progress
 - Introduction of an 'HTTPClient()' to post the filled JSON NFE file to a Trinity GraphEngine defined REST endpoint.
+- New `PostNfe()` method called from `OnDetached()`.
+- Changes
+    1. 
+    2. 
+
+That's all folks!
